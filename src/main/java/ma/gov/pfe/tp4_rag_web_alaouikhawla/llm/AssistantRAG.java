@@ -7,6 +7,7 @@ import dev.langchain4j.rag.DefaultRetrievalAugmentor;
 import dev.langchain4j.rag.content.retriever.ContentRetriever;
 import dev.langchain4j.rag.content.retriever.EmbeddingStoreContentRetriever;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -25,6 +26,8 @@ public class AssistantRAG {
     public void initAssistant() {
 
         if (assistant != null) return; // déjà initialisé
+        System.out.println(" Nombre total de chunks indexés = "
+                + magasinEmbeddings.getTotalChunks());
 
         ChatModel model = GoogleAiGeminiChatModel.builder()
                 .apiKey(System.getenv("GEMINI_KEY"))
@@ -53,5 +56,9 @@ public class AssistantRAG {
     public String ask(String question) {
         initAssistant();
         return assistant.chat(question);
+    }
+
+    public void reset() {
+        this.assistant = null;
     }
 }

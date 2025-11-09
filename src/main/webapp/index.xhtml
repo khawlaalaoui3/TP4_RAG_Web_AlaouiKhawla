@@ -89,5 +89,24 @@
         <h:outputText value="#{chatBean.answer}" escape="false"/>
     </h:panelGroup>
 
+    <br/><hr/><br/>
+    <h2> Ajouter un PDF au système RAG</h2>
+
+    <h:form id="pdfform" enctype="multipart/form-data">
+        <h:panelGrid columns="3">
+            <h:outputLabel for="file" value="Choisir un PDF à importer :" />
+            <h:inputFile id="file" value="#{uploadBean.fichier}" />
+            <h:message for="file" style="color: red;" />
+        </h:panelGrid>
+
+        <h:commandButton value=" Importer et indexer le PDF"
+                         action="#{uploadBean.upload}" />
+
+        <br/><br/>
+
+        <h:outputText value="#{uploadBean.messagePourChargementFichier}"
+                      rendered="#{not empty uploadBean.messagePourChargementFichier}"
+                      style="font-weight:bold;color:green;" />
+    </h:form>
 </h:body>
 </html>

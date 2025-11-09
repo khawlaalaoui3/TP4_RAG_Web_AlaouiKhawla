@@ -22,6 +22,12 @@ public class MagasinEmbeddings implements Serializable {
     private final EmbeddingStore<TextSegment> embeddingStore;
     private final EmbeddingModel embeddingModel;
 
+    private int totalChunks = 0;
+
+    public int getTotalChunks() {
+        return totalChunks;
+    }
+
     public MagasinEmbeddings() {
         this.embeddingStore = new InMemoryEmbeddingStore<>();
         this.embeddingModel = new AllMiniLmL6V2EmbeddingModel();
@@ -46,10 +52,9 @@ public class MagasinEmbeddings implements Serializable {
         var splitter = DocumentSplitters.recursive(500, 50);
         List<TextSegment> segments = splitter.split(document);
 
-        // Générer embeddings
         var embeddings = embeddingModel.embedAll(segments).content();
-
-        // Ajouter dans le store vectoriel
         embeddingStore.addAll(embeddings, segments);
+
+        totalChunks += segments.size();
     }
 }
