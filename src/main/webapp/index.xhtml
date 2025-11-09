@@ -68,5 +68,26 @@
             </h:panelGrid>
         </h:form>
     </f:view>
+    <br/><hr/><br/>
+
+    <h2>Assistant RAG</h2>
+
+    <h:form id="ragForm">
+        <h:panelGrid columns="1">
+            <h:outputText value="Posez votre question sur les PDF :" /><br/>
+
+            <h:inputTextarea value="#{chatBean.question}" rows="5" cols="60"/><br/>
+
+            <h:commandButton value="Envoyer" action="#{chatBean.ask}" />
+        </h:panelGrid>
+    </h:form>
+
+    <br/>
+
+    <h:panelGroup rendered="#{not empty chatBean.answer}">
+        <b>Réponse :</b><br/>
+        <h:outputText value="#{chatBean.answer}" escape="false"/>
+    </h:panelGroup>
+
 </h:body>
 </html>
